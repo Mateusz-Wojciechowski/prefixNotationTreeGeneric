@@ -120,14 +120,5 @@ string COperation<string>::t_div(const vector<string> &operands) {
     return s_result;
 }
 
-template<>
-string COperation<string>::t_sin(const vector<string> &operands) {
-
-}
-
-template<>
-string COperation<string>::t_cos(const vector<string> &operands) {
-
-}
 
 #endif // LAB3_TEP_COPERATION_H

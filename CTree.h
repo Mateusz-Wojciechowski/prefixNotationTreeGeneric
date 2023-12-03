@@ -206,6 +206,14 @@ void CTree<T>::vCreateMap(){
     operations.insert(make_pair(string(S_COS), COperation<T>(COperation<T>::t_cos)));
 }
 
+template <>
+void CTree<string>::vCreateMap(){
+    operations.insert(make_pair(string(S_PLUS), COperation<string >(COperation<string>::t_add)));
+    operations.insert(make_pair(string(S_SUB), COperation<string>(COperation<string>::t_sub)));
+    operations.insert(make_pair(string(S_MUL), COperation<string>(COperation<string>::t_mul)));
+    operations.insert(make_pair(string(S_DIV), COperation<string>(COperation<string>::t_div)));
+}
+
 template<typename T>
 set<string> CTree<T>::vGetUniqueVariables(CNode<T> *c_node, set<string>& variables){
     if(c_node==NULL){
@@ -329,7 +337,12 @@ bool CTree<T>::bIsNum(string s_value){
 
 template<typename T>
 bool CTree<T>::bIsOperator(string s_expression) {
-    return s_expression==S_PLUS || s_expression==S_SUB || s_expression==S_MUL || s_expression==S_DIV || s_expression==S_SIN || s_expression==S_COS || s_expression==S_HASH;
+    return s_expression==S_PLUS || s_expression==S_SUB || s_expression==S_MUL || s_expression==S_DIV || s_expression==S_SIN || s_expression==S_COS;
+}
+
+template <>
+bool CTree<string>::bIsOperator(string s_expression){
+    return s_expression==S_PLUS || s_expression==S_SUB || s_expression==S_MUL || s_expression==S_DIV;
 }
 
 template<typename T>

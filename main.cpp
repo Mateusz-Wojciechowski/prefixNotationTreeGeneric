@@ -1,23 +1,27 @@
 #include <iostream>
 #include "CUserInterface.h"
+#include "cstdlib"
+#include "sstream"
+
+using namespace std;
 int main() {
 
     cout << "Choose the type of the tree:" << endl;
     cout << "1 - Int" << endl;
     cout << "2 - Double" << endl;
     cout << "3 - String" << endl;
-    int i_input;
-    cin >> i_input;
+    string i_input;
+    getline(cin, i_input);
 
-    if(i_input==1){
+    if(i_input=="1"){
         CUserInterface<int> c_ui;
         c_ui.vRun();
     }
-    else if(i_input==2){
+    else if(i_input=="2"){
         CUserInterface<double> c_ui;
         c_ui.vRun();
     }
-    else if(i_input==3){
+    else if(i_input=="3"){
         CUserInterface<string> c_ui;
         c_ui.vRun();
     }
@@ -25,6 +29,7 @@ int main() {
     else{
         cout << "Wrong input was given" << endl;
     }
+
 
 //    CTree<int> c_tree("+ 1 2");
 //    return 0;
@@ -34,9 +39,9 @@ int main() {
 /// napisac opcje wyboru typu w menu (done)
 /// zgeneryzowac wartosc podstawiana przy naprawie drzewa (done)
 /// dzialania na string nie dziala dla pustego znaku "" (done)
-// zabezpieczyc program przed wpisaniem compa na poczatku
+/// zabezpieczyc program przed wpisaniem compa na poczatku (done)
 // pozamieniac stringi i wartosci na stale
-// dodac zeby sinus i cosinus byly nazwami zmiennych a nie operacjami dla string
+/// dodac zeby sinus i cosinus byly nazwami zmiennych a nie operacjami dla string (done)
 
 ////////////////////////////////////////////////////
 

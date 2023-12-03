@@ -11,6 +11,7 @@ public:
     CUserInterface();
     void vRun();
     T getValueFromString(string s_value);
+    bool bCorrectCompInput(vector<string> s_values);
 private:
     CTree<T> c_tree;
 };
@@ -86,42 +87,53 @@ void CUserInterface<T>::vRun() {
         }
 
         if(s_command==S_COMP){
-            vector<string> values;
 
-            istringstream iss(s_operation);
-            string token;
+            if(c_tree.getRoot()!=NULL){
+                vector<string> values;
 
-            while(iss >> token){
-                values.push_back(token);
+                istringstream iss(s_operation);
+                string token;
+
+                while(iss >> token){
+                    values.push_back(token);
+                }
+
+                if(bCorrectCompInput(values)){
+                    set<string> variables;
+                    variables = c_tree.vGetUniqueVariables(c_tree.getRoot(), variables);
+
+
+                    if(values.size()<variables.size()){
+                        cout << S_NOT_ENOUGH_VALUES_COMM1 << endl;
+                    }
+
+                    else if(values.size()>variables.size()){
+                        cout << S_TOO_MANY_VALUES_COMM << endl;
+                    }
+
+                    else{
+                        map<string, T> variable_map;
+                        set<string>::const_iterator it;
+                        int i_iter = 0;
+                        for (it=variables.begin(); it!=variables.end(); it++) {
+                            variable_map[*it] = getValueFromString(values[i_iter].c_str());
+                            i_iter++;
+                        }
+                        try{
+                            T t_result = c_tree.tCalculateTreeValue(c_tree.getRoot(), variable_map);
+                            cout << S_RESULT_COMM << S_SPACE1 << t_result << endl;
+                        }
+                        catch(invalid_argument){
+                            cout << S_DIVISION_BY_ZERO << endl;
+                        }
+                    }
+                }
+                else{
+                 cout << S_WRONG_COMP_ARGS_COMM << endl;
+                }
             }
-
-            set<string> variables;
-            variables = c_tree.vGetUniqueVariables(c_tree.getRoot(), variables);
-
-
-            if(values.size()<variables.size()){
-                cout << S_NOT_ENOUGH_VALUES_COMM1 << endl;
-            }
-
-            else if(values.size()>variables.size()){
-                cout << S_TOO_MANY_VALUES_COMM << endl;
-            }
-
             else{
-                map<string, T> variable_map;
-                set<string>::const_iterator it;
-                int i_iter = 0;
-                for (it=variables.begin(); it!=variables.end(); it++) {
-                    variable_map[*it] = getValueFromString(values[i_iter].c_str());
-                    i_iter++;
-                }
-                try{
-                    T t_result = c_tree.tCalculateTreeValue(c_tree.getRoot(), variable_map);
-                    cout << S_RESULT_COMM << S_SPACE1 << t_result << endl;
-                }
-                catch(invalid_argument){
-                    cout << S_DIVISION_BY_ZERO << endl;
-                }
+                cout << S_EMPTY_TREE_COMM << endl;
             }
         }
 
@@ -179,6 +191,57 @@ string CUserInterface<string>::getValueFromString(string s_value){
     int i_first_quote = s_value.find('\"');
     int i_second_quote = s_value.find('\"', i_first_quote + 1);
     return s_value.substr(i_first_quote + 1, i_second_quote - i_first_quote - 1);
+}
+
+template <>
+bool CUserInterface<int>::bCorrectCompInput(vector<string> s_values){
+    for(int i=0; i<s_values.size(); i++){
+        string s_value = s_values[i];
+        istringstream iss(s_value);
+        int i_value;
+        char c_char;
+
+        if (!(iss >> i_value)) {
+            return false;
+        }
+
+        if (iss >> c_char) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template<>
+bool CUserInterface<double>::bCorrectCompInput(vector<string> s_values){
+    for(int i=0; i<s_values.size(); i++){
+        string s_value = s_values[i];
+        istringstream iss(s_value);
+        double d_value;
+        char c_char;
+
+        if (!(iss >> d_value)) {
+            return false;
+        }
+
+        if (iss >> c_char) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template<>
+bool CUserInterface<string>::bCorrectCompInput(vector<string> s_values){
+    for(int i=0; i<s_values.size(); i++){
+        string s_value = s_values[i];
+        int i_first_quote = s_value.find('\"');
+        int i_second_quote = s_value.find('\"', i_first_quote + 1);
+        if(!(i_first_quote!=-1 && i_second_quote!=-1 && i_first_quote < i_second_quote)){
+            return false;
+        }
+    }
+    return true;
 }
 
 

@@ -21,6 +21,8 @@ const string S_VARS = "vars";
 const string S_JOIN = "join";
 const string S_EXIT = "exit";
 const string S_DIVISION_BY_ZERO = "Division by zero";
+const string S_EMPTY_TREE_COMM = "The tree is empty";
+const string S_WRONG_COMP_ARGS_COMM = "Wrong args given for comp";
 const int I_CHAR_MISSING_VALUE = -1;
 
 #endif //LAB4_TEP_CINTERFACECONSTANTS_H
