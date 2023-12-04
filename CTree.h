@@ -20,7 +20,7 @@ public:
     CTree(string s_prefix);
     CTree();
     ~CTree();
-    CNode<T>* vCreateTree(string s_prefix, int &i_index);
+    CNode<T>* createTree(string s_prefix, int &i_index);
     bool bIsOperator(string s_expression);
     CNode<T>* getRoot();
     void vPrintNode(CNode<T>* c_node, int i_depth);
@@ -38,8 +38,8 @@ public:
     CNode<T>* createDefaultNode();
     bool bIsVariable(string s_value);
     bool bIsNum(string s_value);
-    bool getWasChanged();
-    bool getWrongArguments();
+    bool bGetWasChanged();
+    bool bGetWrongArguments();
     bool bIsTTypevalue(string s_value);
     void vCheckDivisionByZero(CNode<T>* c_node, const vector<T>& results);
     T getValueFromString(string s_value);
@@ -58,7 +58,7 @@ CTree<T>::CTree(string s_prefix){
     b_was_changed = false;
     b_wrong_arguments = false;
     int i_index = 0;
-    root = vCreateTree(s_prefix, i_index);
+    root = createTree(s_prefix, i_index);
     vCreateMap();
 }
 
@@ -67,7 +67,7 @@ CTree<T>::CTree(){
     b_was_changed = false;
     b_wrong_arguments = false;
     int i_index = 0;
-    root = vCreateTree(S_SPACE, i_index);
+    root = createTree(S_SPACE, i_index);
     vCreateMap();
 }
 
@@ -77,7 +77,7 @@ CTree<T>::~CTree(){
 }
 
 template<typename T>
-CNode<T>* CTree<T>::vCreateTree(string s_prefix, int &i_index){
+CNode<T>* CTree<T>::createTree(string s_prefix, int &i_index){
     while (i_index < s_prefix.size() && s_prefix[i_index] == C_SPACE){
         i_index++;
     }
@@ -96,7 +96,7 @@ CNode<T>* CTree<T>::vCreateTree(string s_prefix, int &i_index){
     if (!bIsOperator(s_expression) && !bIsVariable(s_expression) && !bIsTTypevalue(s_expression)) {
         cout << S_INVALID_VALUE_COMM << s_expression << endl;
         b_was_changed = true;
-        return vCreateTree(s_prefix, i_index);
+        return createTree(s_prefix, i_index);
     }
 
     CNode<T>* c_node = new CNode<T>(s_expression);
@@ -116,7 +116,7 @@ CNode<T>* CTree<T>::vCreateTree(string s_prefix, int &i_index){
             }
 
             if (i_index < s_prefix.size()) {
-                c_child = vCreateTree(s_prefix, i_index);
+                c_child = createTree(s_prefix, i_index);
             }
 
             if (c_child == NULL) {
@@ -351,12 +351,12 @@ CNode<T>* CTree<T>::getRoot(){
 }
 
 template<typename T>
-bool CTree<T>::getWasChanged(){
+bool CTree<T>::bGetWasChanged(){
     return b_was_changed;
 }
 
 template<typename T>
-bool CTree<T>::getWrongArguments(){
+bool CTree<T>::bGetWrongArguments(){
     return b_wrong_arguments;
 }
 

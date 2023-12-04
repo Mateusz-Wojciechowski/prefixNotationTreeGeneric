@@ -51,7 +51,7 @@ void CUserInterface<T>::vRun() {
         if(s_command==S_ENTER){
             s_current_prefix = s_operation;
             CTree<T> tree(s_operation);
-            if(tree.getWrongArguments()){
+            if(tree.bGetWrongArguments()){
                 cout << S_WRONG_OPERANDS_COMM << endl;
                 s_current_prefix = S_EMPTY_STRING1;
             }
@@ -74,7 +74,7 @@ void CUserInterface<T>::vRun() {
         if(s_command==S_PRINT){
             cout << S_PREFIX_FORM_COMM;
 
-            if(c_tree.getWasChanged()){
+            if(c_tree.bGetWasChanged()){
                 s_current_prefix = c_tree.sTreeToStr(c_tree.getRoot());
                 cout << s_current_prefix << endl;
             }
@@ -155,7 +155,7 @@ void CUserInterface<T>::vRun() {
         if(s_command==S_JOIN){
             if(s_operation!=S_SPACE){
                 CTree<T> c_second_tree(s_operation);
-                if(!c_second_tree.getWrongArguments()){
+                if(!c_second_tree.bGetWrongArguments()){
                     CTree<T> c_result_tree;
                     c_result_tree = c_tree + c_second_tree;
                     s_current_prefix = c_result_tree.sTreeToStr(c_result_tree.getRoot());
